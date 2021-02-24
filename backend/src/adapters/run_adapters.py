@@ -15,9 +15,13 @@ class RequestAndBuild:
         self.cursor = self.conn.cursor()
 
     def run(self, record_start='2020-12-28', days=1, limit=100):
+        # instead of four nested loops, could look at the following
+        # https://www.tutorialspoint.com/all-possible-permutations-of-n-lists-in-python
         game_objs = []
         for day in range(days):
             record_date = db.date_adding_formatter(record_start,day)
+            # here change to 
+            # for os in ['android', 'iOS']
             for os in range(2):
                 map_os = {0:'android', 1:'iOS'}
                 TS_rankings = self.TowerSensor_Client.get_rankings(platform=map_os[os], date=record_date, limit=limit) 

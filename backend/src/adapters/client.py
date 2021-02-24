@@ -42,16 +42,18 @@ class RAWG_Client:
         return metacritic
 
 class IGDB_Client:
+    ROOT_URL = 'https://api.igdb.com/v4/'
+    # moved root url above rest of class contents
     def __init__(self, client_id = IGDB_CLIENT_ID, client_secret = IGDB_CLIENT_SECRET):
 
         self.client_id = client_id
         self.client_secret = client_secret
 
-    ROOT_URL = 'https://api.igdb.com/v4/'
 
     def get_access_token(self):
         grant_type = 'client_credentials'
         params = {'client_id' : self.client_id, 'client_secret' : self.client_secret, 'grant_type' : grant_type}
+        # user env variable
         url = 'https://id.twitch.tv/oauth2/token'
 
         response=requests.post(url, data=params)
@@ -89,16 +91,14 @@ class IGDB_Client:
 
 
 class TowerSensor_Client:
-    def __init__(self, user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' , x_csrf_token = TS_TOKEN):
-
-        self.user_agent = user_agent 
-        self.x_csrf_token = x_csrf_token
-
     ROOT_URL_iOS = 'https://sensortower.com/api/ios/rankings/get_category_rankings'
     ROOT_URL_android = 'https://sensortower.com/api/android/rankings/get_category_rankings'
 
-    iOS_query_params = {'category' : 6014, 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'IPHONE', 'limit': 100, 'offset' : 0}
-    android_query_params = {'category' : 'game', 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'MOBILE', 'limit': 100, 'offset' : 0}
+
+    def __init__(self, user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' , x_csrf_token = TS_TOKEN):
+        self.user_agent = user_agent 
+        self.x_csrf_token = x_csrf_token
+
 
     def auth_params(self):
         return { 'headers' : {'user-agent': self.user_agent, 'x-csrf-token': self.x_csrf_token }}
@@ -109,6 +109,8 @@ class TowerSensor_Client:
         return params
 
     def get_rankings(self, platform='iOS', date='2020-12-28', limit=100):
+        iOS_query_params = {'category' : 6014, 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'IPHONE', 'limit': 100, 'offset' : 0}
+        android_query_params = {'category' : 'game', 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'MOBILE', 'limit': 100, 'offset' : 0}
         if platform == 'iOS':
             query = self.iOS_query_params
             root = self.ROOT_URL_iOS

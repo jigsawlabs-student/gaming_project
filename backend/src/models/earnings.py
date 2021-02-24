@@ -22,6 +22,9 @@ class Earnings():
         return db.build_from_record(models.Game, record)
 
     def check_update_revenue_downloads(self, TS_details, conn, cursor):
+        # for this would store TS_details['humanized...']
+        # ['revenue'] in variable
+        # ['downloads'] in variable
         if self.revenue < TS_details['humanized_worldwide_last_month_revenue']['revenue']: 
             self.revenue, self.update_rev = TS_details['humanized_worldwide_last_month_revenue']['revenue'], True
             db.update_column(self, 'revenue', conn, cursor)

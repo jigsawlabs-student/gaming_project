@@ -5,6 +5,9 @@ import plotly.graph_objects as go
 import requests
 import streamlit as st
 
+# here, main comment is to move the functions into a separate file.  
+# Wrap the pandas code into functions, and move into  separate file.
+
 
 API_URL_games = "http://127.0.0.1:5000/games"
 API_URL_earnings_search = "http://127.0.0.1:5000/games/earnings/search"
@@ -27,6 +30,9 @@ def get_RPD():
 def get_ratings_all():
     response = requests.get(API_URL_ratings_all)
     return response.json()
+
+def game_name(games_list):
+    return [game['name'] for game in games_list]
 
 
 st.title("Mobile Gaming Analytics")
@@ -71,14 +77,15 @@ st.plotly_chart(fig_r)
 
 games_list = get_games()
 
-def game_name(games_list):
-    return [game['name'] for game in games_list]
 
 st.write("Want to compare how two games do on the rankings? type/select each game (note: the sidebar filters are also attached to the ranking chart)")
 
 games_collection = game_name(games_list)
 game_search1 = st.selectbox("game1", games_collection) 
 game_search2 = st.selectbox("game2", games_collection)
+
+
+# wrap in function
 
 top_10_rank = ra_search.loc[(ra_search['name']==game_search1) | (ra_search['name']==game_search2)]
 top_10_rank = top_10_rank.sort_values(by='date_created')
@@ -117,7 +124,7 @@ fig_b = px.scatter(dF,x='downloads',y='revenue',hover_name='name',
 st.plotly_chart(fig_b)
 
 # RPD analysis
-
+# wrap in function
 rpd_dF = pd.DataFrame(get_RPD())
 rpd_dF = rpd_dF.drop('RPD',1).assign(**rpd_dF.RPD.apply(pd.Series))
 rpd_dF = rpd_dF[rpd_dF['RPD']  > 1 ]

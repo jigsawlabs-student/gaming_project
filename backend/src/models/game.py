@@ -50,7 +50,6 @@ class Game():
             self.genre = sib.genre
             db.update_column(self, 'genre', conn, cursor)
         self.check_update_game_engine_reldate(sib, conn, cursor)
-        return
         
     def check_update_game_engine_reldate(self, sib, conn, cursor):
         if not self.game_engine: 
@@ -61,7 +60,6 @@ class Game():
             if sib.release_date: 
                 self.release_date = sib.release_date
                 db.update_column(self, 'release_date', conn, cursor)
-        return
     
     def revenue_per_downloads(self, cursor):
         rpd_columns = ['revenue', 'downloads', 'RPD', 'inapp', 'shows_ads']

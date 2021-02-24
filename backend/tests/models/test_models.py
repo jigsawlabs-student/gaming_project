@@ -78,6 +78,7 @@ def test_Game_try_sibling_params_if_None(test_conn):
     assert amongus_i_new.game_engine == 'Unity' 
 
 def test_update_revenue_downloads_equal_lower_value_no_update(test_conn):
+    # where is this function used?
     test_cursor = test_conn.cursor()
     builder = adapters.Builder()
     game_objs = builder.run(s3d_details, s3d_record_date, s3d_rank_type, test_conn, test_cursor)
@@ -88,6 +89,7 @@ def test_update_revenue_downloads_equal_lower_value_no_update(test_conn):
     assert same_earnings.downloads == 21000000
 
 def test_update_revenue_downloads_bigger_value_update(test_conn):
+    # where is this function used?
     test_cursor = test_conn.cursor()
     builder = adapters.Builder()
     game_objs = builder.run(s3d_details, s3d_record_date, s3d_rank_type, test_conn, test_cursor)
